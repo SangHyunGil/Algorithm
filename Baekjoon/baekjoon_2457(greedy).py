@@ -1,20 +1,31 @@
-alpha = []
-for _ in range(26):
-    alpha.append(0)
+import sys
+from heapq import heappush, heappop
+input = sys.stdin.readline
 
-for _ in range(int(input())):
-    s = input()
-    for i in range(len(s)):
-        alpha[ord(s[i])-ord('A')] += 10 ** (len(s)-i-1)
+n = int(input())
+arr = []
+for _ in range(n):
+    p, d = map(int, input().split())
+    arr.append([d, p])
+arr.sort()
 
-print(alpha) 
-alpha.sort(reverse = True)
+answer = 0
+heap = [] 
+for d, p in arr:
+    if heap:
+        if len(heap) < d:
+            answer += p
+            heappush(heap, [p, d])
 
-s = 0
-for i in range(26):
-    if(alpha[i] != 0):
-        s = s + alpha[i] * (9 - i)
+        elif len(heap) == d and heap[0][0] < p:
+            prev_p, _ = heappop(heap)
+            answer -= prev_p
+
+            heappush(heap, [p, d])
+            answer += p
+
     else:
-        break
-        
-print(s)
+        answer += p
+        heappush(heap, [p, d])
+    
+print(answer)
