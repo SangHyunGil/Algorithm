@@ -1,22 +1,33 @@
 import sys
-from collections import defaultdict
- 
-readline = sys.stdin.readline
- 
-def main():
-    dic = defaultdict(int)
-    tot = 0
-    try:
-        while 1:
-            word = readline().rstrip()
-            if not word:
-                break
-            dic[word] += 1
-            tot += 1
-    except EOFError:
-        exit()
- 
-    for t in sorted(dic.keys()):
-        print(t,format(dic[t]/tot*100,'.4f'))
-if __name__=='__main__':
-    main()
+
+sys.setrecursionlimit(100000)
+
+
+def find(u):
+    if gates[u] == u:
+        return u
+    gates[u] = find(gates[u])
+    return gates[u]
+
+
+def docking(u):
+    u = find(u)
+    if u == 0:
+        return False
+
+    gates[u] = u - 1
+    return True
+
+
+G = int(sys.stdin.readline())
+P = int(sys.stdin.readline())
+
+gates = [i for i in range(G + 1)]
+arrived = 0
+
+for _ in range(P):
+    plain_num = int(sys.stdin.readline())
+    if not docking(plain_num):
+        break
+    arrived += 1
+print(arrived)
