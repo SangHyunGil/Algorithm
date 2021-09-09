@@ -22,7 +22,5 @@ for c in s:
             answer += stack.pop()
         stack.append(c)
 
-    print(c, answer, stack)
-
 while stack: answer += stack.pop()
 print(answer)
