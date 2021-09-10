@@ -2,10 +2,6 @@ import sys, time
 from collections import deque
 input = sys.stdin.readline
 
-def findMinMax(arr, left, right):
-    temp = sorted(arr)
-    return min(left, temp[0]), max(right, temp[-1])
-
 def isValid(i, j):
     if 0 <= i < n and 0 <= j < n:
         return True
@@ -34,33 +30,18 @@ def bfs(left, right):
 
     return False
 
-def go(left, mid, right):
-    for i in range(left, right):
-        print(i, i+mid, mid)
-        if i <= graph[0][0] <= i+mid and bfs(i, i+mid):
-            return True
-    return False
-
-
 n = int(input())
-graph = []
-mn, mx = sys.maxsize, -sys.maxsize
-for _ in range(n):
-    arr = list(map(int, input().split()))
-    graph.append(arr)
-    mn, mx = findMinMax(arr, mn, mx)
+graph = [list(map(int, input().split())) for _ in range(n)]
+mx = max(map(max, graph))
 
-
-answer = 0
-left, right = 0, 200
-while left <= right:
+answer = sys.maxsize
+left, right = 0, 0
+while left <= right <= mx:
     print(left, right)
-    mid = (left+right)//2
-    if go(mn, mid, mx):
-        answer = mid
-        right = mid-1
-
+    if left <= graph[0][0] <= right and bfs(left, right):
+        answer = min(answer, right-left)
+        left += 1
     else:
-        left = mid+1
+        right +=1
 
 print(answer)
