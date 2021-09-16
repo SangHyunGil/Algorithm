@@ -1,45 +1,18 @@
-import sys, time
-from collections import deque
-input = sys.stdin.readline
+import sys
 
-class Node():
-    def __init__(self, data):
-        self.data = data
-        self.next = None
+answer = 0
+n = int(input())
+building = []
+stack = []
+for _ in range(n):
+    building.append(int(input()))
 
-class CircularLinkedList():
-    def __init__(self):
-        self.head = Node(1)
-        self.head.next = self.head
-        self.size = 1
+for i in range(n):
+    while stack and stack[-1] <= building[i]:
+        stack.pop()
 
-answer = "<"
-link = CircularLinkedList()
-N, K = map(int, input().split())
+    answer += len(stack)
+    print(answer)
+    stack.append(building[i])
 
-target = link.head
-for i in range(2, N+1):
-    newNode = Node(i)
-    target.next = newNode
-    newNode.next = link.head
-    target = target.next
-    link.size += 1
-
-target = link.head
-while link.size:
-    cnt = K-2
-    while cnt:
-        target = target.next
-        cnt -= 1
-        
-    store = target.next
-    answer += str(store.data) + (", " if link.size != 1 else "")
-  
-    store = store.next
-    target.next = store
-    target = store
-    link.size -= 1
-
-
-answer += ">"
 print(answer)
