@@ -1,32 +1,30 @@
 import sys
 from collections import deque
-sys.setrecursionlimit(10**8)
 input = sys.stdin.readline
 
-def dfs(i):
-    global answer
-    path.append(i)
-    visited[i] = 1
-
-    nxt = team[i]-1
-    if visited[nxt]:
-        if nxt in path:
-            answer += len(path[path.index(nxt):])
-        return
-        
-    else:
-        dfs(nxt) 
-
-for _ in range(int(input())):
-    answer = 0     
+def solve():
     n = int(input())
-    visited = [0] * n
-    graph = [[] for _ in range(n)]
-    team = list(map(int, input().split()))
+    stack = []
+    data = sorted([list(map(int, input().split())) for _ in range(n)])
 
-    for i in range(n):
-        if not visited[i]:
-            path = []
-            dfs(i)
+    for x, d in data:
+        if stack:
+            if d+stack[-1][1] < abs(x-stack[-1][0]):
+                pass
+            
+            elif abs(x-stack[-1][0]) < abs(d-stack[-1][1]):
+                stack.pop()
+                stack.append([x, d])
 
-    print(n-answer)
+            else:
+                return "NO"
+                
+
+        else:
+            stack.append([x, d])
+
+
+    return "YES"
+
+
+print(solve())
