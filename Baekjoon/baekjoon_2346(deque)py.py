@@ -1,25 +1,19 @@
 import sys
-from collections import deque
 input = sys.stdin.readline
 
-def solve():
+for _ in range(int(input())):
     n = int(input())
-    answer = []
-    paper = list(map(int, input().split()))
-    ballon = deque(zip(range(1, n+1), paper))
-    
-    while len(ballon) > 1:
-        b = ballon.popleft()
-        answer.append(b[0])
-        if b[1] > 0:
-            for _ in range(b[1]-1):
-                ballon.append(ballon.popleft())
 
-        else:
-            for _ in range(abs(b[1])):
-                ballon.appendleft(ballon.pop())
+    answer = [0]
+    k = 1
+    for i in range(n):
+        answer.append(answer[-1] | k)
+        k += 1
 
-    answer.append(ballon[0][0])
+    k = 1
+    for i in range(n-1):
+        answer.append(answer[-1] ^ k)
+        k = k << 1
+
+    print(*list(map(bin, answer)))
     print(*answer)
-
-solve()
