@@ -1,3 +1,11 @@
+"""
+combination을 활용해 씨앗의 조합을 찾는다.
+찾은 조합을 기반으로 꽃이 필수 있는 부분을 찾는다.
+이것에 대해서 bfs 탐색을 진행한다.
+뿌려진 곳에 대해 전부 탐색한 뒤 방문표시를 진행한다.
+왜냐하면 겹쳐야 하기 때문이다. (미리 방문 표시를 한다면 방문 불가)
+"""
+
 import sys
 from collections import deque
 from itertools import combinations
@@ -34,8 +42,6 @@ def bfs(ngraph, red, green):
     dy = [1, 0, -1, 0]
 
     while queue:
-
-
         for i in range(len(queue)):
             x, y = queue.popleft()
             if ngraph[x][y] == 5: continue
@@ -57,7 +63,6 @@ def bfs(ngraph, red, green):
 
     return ans
 
-z = 0
 for p1 in combinations(seed, G+R):
     for p2 in combinations(range(G+R), G):
         red = []
@@ -68,8 +73,6 @@ for p1 in combinations(seed, G+R):
                 red.append(p1[i])
             else:
                 green.append(p1[i])
-        z += 1
         answer = max(answer, bfs(ngraph, red, green))
 
-print(z)
 print(answer)
