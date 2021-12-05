@@ -1,17 +1,16 @@
 import sys
 input = sys.stdin.readline
 
-a, b = map(int, sys.stdin.readline().split())
-if a == b:
-    print(0)
-else:
-    n = int((b - a) ** 0.5)
-    if n ** 2 == b - a:
-        print(2 * n - 1)
-    else:
-        z = (b - a) - n ** 2
-        print(z, n)
-        if z <= n:
-            print(2 * n)
-        else:
-            print(2 * n + 1)
+H, Y = map(int, input().split())
+MONEY = [H] + [0] * 10
+
+for i in range(1, Y+1):
+    MONEY[i] = MONEY[i-1]*1.05
+
+    if i >= 3:
+        MONEY[i] = max(MONEY[i], MONEY[i-3]*1.2)
+    if i >= 5:
+        MONEY[i] = max(MONEY[i], MONEY[i-5]*1.35)
+    MONEY[i] = int(MONEY[i])
+    print(MONEY)
+print(int(MONEY[Y]))
