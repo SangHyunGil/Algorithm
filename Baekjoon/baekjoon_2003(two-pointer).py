@@ -1,27 +1,15 @@
 import sys
 input = sys.stdin.readline
 
-n, m = map(int, input().split())
-arr = list(map(int, input().split()))
+n = int(input())
+arr = [*map(int, input().split())]
+dp = [1] * n
+for i in range(n):
+    temp = dp[i]
+    for j in range(i):
+        print(dp)
+        if arr[j] < arr[i]:
+            temp = max(temp, dp[i]+dp[j])
+    dp[i] = temp
 
-answer = 0
-total = arr[0]
-left, right = 0, 1
-while left <= right:
-    if total == m:
-        answer += 1
-        total -= arr[left]
-        left += 1
-
-    if right == n and total < m:
-        break
-
-    elif total < m:
-        total += arr[right]
-        right += 1
-
-    else:
-        total -= arr[left]
-        left += 1
-
-print(answer)
+print(max(dp))
