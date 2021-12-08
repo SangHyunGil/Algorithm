@@ -1,19 +1,12 @@
 import sys
-from collections import deque
+from functools import reduce
 input = sys.stdin.readline
 
-dp = [[0, 0, 0] for _ in range(100001)]
-dp[0] = [1, 0, 0]
-dp[1] = [0, 1, 0]
-dp[2] = [1, 1, 1]
+N, M = map(int, input().split())
+arr = [0]+[*map(int, input().split())]
+for i in range(2, N+1):
+    arr[i] += arr[i-1]
 
-for i in range(3, 100001):
-    for j in range(3):
-        for k in range(3):
-            if k != j:
-                dp[i][j] += dp[i-j-1][k]
-        dp[i][j] %= 1000000009
-
-for i in range(int(input())):
-    n = int(input())
-    print(sum(dp[n-1]) % 1000000009)
+for i in range(M):
+    i, j = map(int, input().split())
+    print(arr[j]-arr[i-1])
