@@ -1,28 +1,22 @@
 import sys
-from collections import deque
-from bisect import bisect_left
 input = sys.stdin.readline
+ 
+def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a%b)
+ 
+for _ in range(int(input())):
+    n = int(input())
+    arr = list(map(int, input().split()))
+ 
+    num = arr[0]
+    for k in arr:
+        num = gcd(num, k)
+        print(num, gcd(4, 4))
 
-N = int(input())
-T = [*map(int, input().split())]
-DP = [-sys.maxsize]
-TRACE = [0] * N
-
-for i in range(N):
-    if DP[-1] < T[i]:
-        DP.append(T[i])
-        TRACE[i] = len(DP)-1
+ 
+    if num == 1:
+        print("true")
     else:
-        idx = bisect_left(DP, T[i])
-        DP[idx] = T[i]
-        TRACE[i] = idx
-
-ANS = deque([])
-length = len(DP)-1
-for i in range(N-1, -1, -1):
-    if TRACE[i] == length:
-        ANS.appendleft(T[i])
-        length -= 1
-
-print(len(DP)-1)
-print(*ANS)
+        print("false")
