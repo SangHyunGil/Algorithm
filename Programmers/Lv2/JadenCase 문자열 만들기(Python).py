@@ -1,8 +1,5 @@
 def solution(s):
-    answer=''
-    s=s.split(' ')
+    s = s.split(" ")
     for i in range(len(s)):
-        if not s[i][0].isdecimal():
-            s[i]=s[i][0].upper()+s[i][1:].lower()
-    answer=' '.join(s)
-    return answer
+        s[i] = s[i][:1].upper() + s[i][1:].lower()
+    return ' '.join(s)
